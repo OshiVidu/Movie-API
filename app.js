@@ -1,9 +1,9 @@
-require('dotenv').config();
+require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const movieRoutes = require('./app/routes/movieRoutes');
-const connectDB = require('./config/database');
+const connectDB = require('./config/dbConfig');
 const path = require('path');
 
 // Connect to the database
