@@ -1,32 +1,25 @@
-require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const movieRoutes = require('./app/routes/movieRoutes');
-const connectDB = require('./config/dbConfig');
-const path = require('path');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const movieRoutes = require('./routes/movieRoutes');
 
-// Connect to the database
-connectDB();
+dotenv.config();
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('MongoDB connected...'))
+  .catch(err => console.error('Error connecting to MongoDB:', err));
 
 // Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json()); // Parse JSON bodies
 
-// Set view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'app/views'));
+// Use routes
+app.use('/api', movieRoutes);
 
-// Routes
-app.use('/movies', movieRoutes);
-
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Start the server
-const port = process.env.PORT || 3000;
+// Start server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
-
-module.exports = app;
