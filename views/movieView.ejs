@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movies</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Movie List</h1>
+    <ul>
+        <% movies.forEach(function(movie) { %>
+            <li><%= movie.title %> - <%= movie.director %> - <%= movie.releaseDate.toDateString() %> - <%= movie.genre %> - <%= movie.rating %></li>
+        <% }) %>
+    </ul>
+</body>
+</html>
